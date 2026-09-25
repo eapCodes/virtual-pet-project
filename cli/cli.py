@@ -3,8 +3,10 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.pet import Pet
 
-my_pet = Pet()
-print(my_pet.hunger)
+try:
+    my_pet = Pet.load()
+except:
+    my_pet = Pet()
 
 while True:
     my_pet.tick()
@@ -32,4 +34,5 @@ while True:
     elif choice == "4":
         my_pet.teach()
     elif choice == "5":
+        my_pet.save()
         break
