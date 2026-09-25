@@ -1,5 +1,6 @@
 from datetime import datetime
 import time
+import json
 class Pet:
     def __init__ (self):
         self.hunger = 70
@@ -99,6 +100,41 @@ class Pet:
         else:
                 return "Neutral"
 
+    def save(self):
+         data = {
+              "hunger": self.hunger,
+              "energy": self.energy,
+              "happiness": self.happiness,
+              "knowledge": self.knowledge,
+              "health": self.health,   
+              "last updated": self.last_updated.isoformat(),
+              "last fed": self.last_fed.isoformat(),
+              "last rest": self.last_rested.isoformat(),
+              "last played": self.last_played.isoformat(),
+              "last teach": self.last_teach.isoformat()
+         }
+         with open("saves/pet_save.json", "w") as f:
+             json.dump(data,f)
+    @classmethod
+    def load(cls):
+        with open("saves/pet_save.json", "r") as f:
+            data = json.load(f)
+        new_pet = cls()
+        new_pet.hunger = data["hunger"]
+        new_pet.energy = data["energy"]
+        new_pet.happiness = data["happiness"]
+        new_pet.knowledge = data["knowledge"]
+        new_pet.health = data["health"]
+        new_pet.last_updated = datetime.fromisoformat(data["last updated"])
+        new_pet.last_fed = datetime.fromisoformat(data["last fed"])
+        new_pet.last_rested = datetime.fromisoformat(data["last rest"])
+        new_pet.last_played = datetime.fromisoformat(data["last played"])
+        new_pet.last_teach = datetime.fromisoformat(data["last teach"])
+        new_pet.tick()
+        return new_pet
+
+        
+
 if __name__ == "__main__":
     my_pet = Pet()  
     my_pet.tick()
@@ -111,14 +147,14 @@ if __name__ == "__main__":
     print(my_pet.hunger)
     my_pet.feed()
     print(my_pet.hunger)
-    my_pet.feed()  # call it again immediately
+    my_pet.feed()  
     print(my_pet.hunger)
     print(my_pet.happiness, my_pet.energy)
     my_pet.play()
     print(my_pet.happiness, my_pet.energy)
     my_pet.play()
     print(my_pet.happiness, my_pet.energy)
-    print(my_pet.hunger, my_pet.energy)
+    print(my_pet.hunger,  my_pet.energy)
     my_pet.rest()
     print(my_pet.hunger, my_pet.energy)
     my_pet.rest()
@@ -129,4 +165,8 @@ if __name__ == "__main__":
     my_pet.teach()
     print(my_pet.knowledge, my_pet.energy, my_pet.happiness)
     print(my_pet.mood())
-        
+    print(my_pet.last_updated.isoformat())
+    my_pet.save()   
+    loaded_pet = Pet.load()
+    print(loaded_pet.hunger, loaded_pet.energy, loaded_pet.happiness, loaded_pet.knowledge, loaded_pet.health)
+    time.sleep(5)
