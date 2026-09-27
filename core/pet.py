@@ -46,6 +46,8 @@ class Pet:
             self.restoration += drift_multiplier * elapsed_hours
         elif self.happiness <= 20:
             self.dark += drift_multiplier * elapsed_hours
+            self.health = self.health - (0.5 * drift_multiplier * elapsed_hours)
+            self.health = max(0, min(100, self.health))
 
     def feed(self):
         elapsed_since_fed = datetime.now() - self.last_fed
