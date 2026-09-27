@@ -4,7 +4,12 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.pet import Pet
 
-my_pet = Pet()
+try:
+    my_pet = Pet.load()
+except:
+    my_pet = Pet()
+
+print(my_pet.hunger, my_pet.energy, my_pet.happiness)
 
 pygame.init()
 
@@ -29,6 +34,7 @@ current_screen = "main"
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
+            my_pet.save()
             running = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
@@ -93,3 +99,4 @@ while running:
 
 
     pygame.display.flip()
+    
