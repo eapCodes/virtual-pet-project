@@ -38,10 +38,14 @@ class Pet:
             self.health = self.health - (10 * elapsed_hours)
             self.health = max(0, min(100, self.health))
 
+        age = datetime.now() - self.birth_time
+        age_hours = age.total_seconds() / 3600
+        drift_multiplier = max(0, 1 - (age_hours / 6))
+
         if self.happiness >= 70:
-            self.restoration += 1 * elapsed_hours
+            self.restoration += drift_multiplier * elapsed_hours
         elif self.happiness <= 20:
-            self.dark += 1 * elapsed_hours
+            self.dark += drift_multiplier * elapsed_hours
 
     def feed(self):
         elapsed_since_fed = datetime.now() - self.last_fed
