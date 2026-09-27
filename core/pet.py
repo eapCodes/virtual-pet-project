@@ -240,7 +240,41 @@ class Pet:
               return "partial"
          else:
               return "none"
-            
+         
+    def get_shares(self):
+         total = self.elemental + self.restoration+ self.illusion + self.dark + self.nature
+         if total == 0:
+              return {"elemental": 0, "restoration": 0, "illusion": 0, "dark": 0, "nature": 0}
+         shares = {
+              "elemental": self.elemental /total,
+              "restoration": self.restoration / total,
+              "illusion" : self.illusion / total,
+              "dark": self.dark / total,
+              "nature": self.nature / total
+         }
+         return shares
+
+    def get_tier(self):
+        shares = self.get_shares()
+        values = sorted(shares.values(), reverse=True)
+
+        count = 0
+        for value in values:
+            if value >= 0.4:
+                count += 1
+
+        if count == 0:
+             return "unranked"
+        elif count == 1:
+             return "pure"
+        elif count == 2:
+             return "hybrid"
+        elif count == 3:
+             return "tri-class"
+        elif count == 4:
+             return "quad-class"
+        else:
+             return "archmage"
 
 if __name__ == "__main__":
     my_pet = Pet()  
@@ -280,3 +314,6 @@ if __name__ == "__main__":
     print(my_pet.get_stage())
     print(my_pet.restoration, my_pet.dark)
     print(my_pet.get_twilight_status())
+    print(my_pet.get_shares())
+    print(my_pet.get_shares())
+    print(my_pet.get_tier())
