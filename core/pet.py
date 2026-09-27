@@ -57,6 +57,14 @@ class Pet:
             self.health = self.health - (0.5 * drift_multiplier * elapsed_hours)
             self.health = max(0, min(100, self.health))
 
+        if self.get_stage() >= 2 and self.checkpoint_1_passed is None:
+             gap = abs(self.restoration - self.dark)
+             self.checkpoint_1_passed = gap <= 10
+
+        if self.get_stage() >= 3 and self.checkpoint_2_passed is None:
+            gap = abs(self.restoration - self.dark)
+            self.checkpoint_2_passed = gap <= 10
+
     def feed(self):
         elapsed_since_fed = datetime.now() - self.last_fed
         elapsed_minutes = elapsed_since_fed.total_seconds() / 60
