@@ -1,8 +1,10 @@
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 import time
 import json
 import requests
-
+load_dotenv()
 
 def weather_to_affinity(condition):
     if condition == "Clear":
@@ -44,7 +46,7 @@ class Pet:
         else:
             self.restoration += 5
         try:
-            api_key = "2d7f5dee21c29e1519a55e226c462486"
+            api_key = os.getenv("OPENWEATHER_API_KEY")
             city = "Pocatello"
             url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=imperial"
             response = requests.get(url)
