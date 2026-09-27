@@ -19,6 +19,8 @@ class Pet:
         self.dark = 0
         self.nature = 0
         self.birth_time = datetime.now()
+        self.checkpoint_1_passed = None
+        self.checkpoint_2_passed = None
 
         birth_hour = self.birth_time.hour
         if birth_hour <  6 or  birth_hour >= 20:
@@ -140,7 +142,9 @@ class Pet:
               "illusion": self.illusion,
               "dark": self.dark,
               "nature": self.nature,
-              "birth": self.birth_time.isoformat()
+              "birth": self.birth_time.isoformat(),
+              "checkpoint 1": self.checkpoint_1_passed,
+              "checkpoint 2": self.checkpoint_2_passed
          }
         with open("saves/pet_save.json", "w") as f:
             json.dump(data,f)
@@ -165,6 +169,8 @@ class Pet:
         new_pet.dark = data["dark"]
         new_pet.nature = data["nature"]
         new_pet.birth_time = datetime.fromisoformat(data["birth"])
+        new_pet.checkpoint_1_passed = data["checkpoint 1"]
+        new_pet.checkpoint_2_passed = data["checkpoint 2"]
         new_pet.tick()
         return new_pet
 
