@@ -197,6 +197,14 @@ class Pet:
             else:
                 return 5
             
+    def get_twilight_status(self):
+         if self.checkpoint_1_passed == True and self.checkpoint_2_passed == True:
+              return "full"
+         elif self.checkpoint_2_passed == True and self.checkpoint_1_passed != True:
+              return "partial"
+         else:
+              return "none"
+            
 
 if __name__ == "__main__":
     my_pet = Pet()  
@@ -235,3 +243,4 @@ if __name__ == "__main__":
     print(my_pet.restoration, my_pet.dark)
     print(my_pet.get_stage())
     print(my_pet.restoration, my_pet.dark)
+    print(my_pet.get_twilight_status())
