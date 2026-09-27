@@ -22,7 +22,7 @@ menu_rects = [
     pygame.Rect(212, 20, 70, 40),
     pygame.Rect(306, 20, 70, 40)
 ]
-menu_items = ["Feed", "Play", "Rest", "Teach", "Status", "Cast spell", "Brew Potion", "Enter Dungeon"]
+menu_items = ["Nourish", "Recreation", "Meditate", "Study", "Status", "Cast spell", "Brew Potion", "Enter Dungeon"]
 selected_index = 0
 font = pygame.font.Font(None, 15)
 current_screen = "main"
@@ -93,4 +93,3 @@ while running:
 
 
     pygame.display.flip()
-    print(current_screen)
