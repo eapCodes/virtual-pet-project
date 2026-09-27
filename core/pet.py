@@ -13,6 +13,11 @@ class Pet:
         self.last_played = datetime.now()
         self.last_rested = datetime.now()
         self.last_teach = datetime.now()
+        self.elemental = 0
+        self.restoration = 0
+        self.illusion = 0
+        self.dark = 0
+        self.nature = 0
 
     def tick(self):
         elapsed = datetime.now() - self.last_updated
@@ -111,7 +116,12 @@ class Pet:
               "last fed": self.last_fed.isoformat(),
               "last rest": self.last_rested.isoformat(),
               "last played": self.last_played.isoformat(),
-              "last teach": self.last_teach.isoformat()
+              "last teach": self.last_teach.isoformat(),
+              "elemental": self.elemental,
+              "restoration": self.restoration,
+              "illusion": self.illusion,
+              "dark": self.dark,
+              "nature": self.nature
          }
          with open("saves/pet_save.json", "w") as f:
              json.dump(data,f)
@@ -169,4 +179,3 @@ if __name__ == "__main__":
     my_pet.save()   
     loaded_pet = Pet.load()
     print(loaded_pet.hunger, loaded_pet.energy, loaded_pet.happiness, loaded_pet.knowledge, loaded_pet.health)
-    time.sleep(5)
