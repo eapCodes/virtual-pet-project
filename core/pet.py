@@ -1,6 +1,22 @@
 from datetime import datetime
 import time
 import json
+import requests
+
+
+def weather_to_affinity(condition):
+    if condition == "Clear":
+        return "elemental"
+    elif condition == "Thunderstorm":
+        return "elemental"
+    elif condition == "Snow":
+        return "illusion"
+    elif condition == "Rain" or condition == "Drizzle":
+        return "restoration"
+    else:
+        return "dark"
+
+
 class Pet:
     def __init__ (self):
         self.hunger = 70
@@ -27,6 +43,24 @@ class Pet:
             self.dark +=  6
         else:
             self.restoration += 5
+        try:
+            api_key = "2d7f5dee21c29e1519a55e226c462486"
+            city = "Pocatello"
+            url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=imperial"
+            response = requests.get(url)
+            data = response.json()
+            condition = data["weather"][0]["main"]
+            school = weather_to_affinity(condition)
+            if school == "elemental":
+                self.elemental += 5
+            elif school == "illusion":
+                self.illusion += 5
+            elif school == "restoration":
+                self.restoration += 5
+            elif school == "dark":
+                self.dark += 5
+        except:
+            pass
 
     def tick(self):
         elapsed = datetime.now() - self.last_updated
