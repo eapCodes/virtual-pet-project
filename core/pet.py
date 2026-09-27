@@ -18,6 +18,7 @@ class Pet:
         self.illusion = 0
         self.dark = 0
         self.nature = 0
+        self.birth_time = datetime.now()
 
     def tick(self):
         elapsed = datetime.now() - self.last_updated
@@ -36,6 +37,11 @@ class Pet:
         if self.hunger ==0 or self.energy == 0:
             self.health = self.health - (10 * elapsed_hours)
             self.health = max(0, min(100, self.health))
+
+        if self.happiness >= 70:
+            self.restoration += 1 * elapsed_hours
+        elif self.happiness <= 20:
+            self.dark += 1 * elapsed_hours
 
     def feed(self):
         elapsed_since_fed = datetime.now() - self.last_fed
@@ -106,7 +112,7 @@ class Pet:
                 return "Neutral"
 
     def save(self):
-         data = {
+        data = {
               "hunger": self.hunger,
               "energy": self.energy,
               "happiness": self.happiness,
@@ -121,10 +127,11 @@ class Pet:
               "restoration": self.restoration,
               "illusion": self.illusion,
               "dark": self.dark,
-              "nature": self.nature
+              "nature": self.nature,
+              "birth": self.birth_time.isoformat()
          }
-         with open("saves/pet_save.json", "w") as f:
-             json.dump(data,f)
+        with open("saves/pet_save.json", "w") as f:
+            json.dump(data,f)
     @classmethod
     def load(cls):
         with open("saves/pet_save.json", "r") as f:
@@ -140,10 +147,30 @@ class Pet:
         new_pet.last_rested = datetime.fromisoformat(data["last rest"])
         new_pet.last_played = datetime.fromisoformat(data["last played"])
         new_pet.last_teach = datetime.fromisoformat(data["last teach"])
+        new_pet.elemental = data["elemental"]
+        new_pet.restoration = data["restoration"]
+        new_pet.illusion = data["illusion"]
+        new_pet.dark = data["dark"]
+        new_pet.nature = data["nature"]
+        new_pet.birth_time = datetime.fromisoformat(data["birth"])
         new_pet.tick()
         return new_pet
 
-        
+    def get_stage(self):
+            age = datetime.now() - self.birth_time
+            age_hours = age.total_seconds() / 3600
+
+            if age_hours < 2:
+                return 1
+            if age_hours < 6:
+                return 2
+            if age_hours < 24 * 3:
+                return 3
+            if age_hours < 24 * 5:
+                return 4
+            else:
+                return 5
+            
 
 if __name__ == "__main__":
     my_pet = Pet()  
@@ -179,3 +206,5 @@ if __name__ == "__main__":
     my_pet.save()   
     loaded_pet = Pet.load()
     print(loaded_pet.hunger, loaded_pet.energy, loaded_pet.happiness, loaded_pet.knowledge, loaded_pet.health)
+    print(my_pet.restoration, my_pet.dark)
+    print(my_pet.get_stage())
