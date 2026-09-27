@@ -51,11 +51,11 @@ while running:
                 elif selected_index == 4:
                     current_screen = "status"
                 elif selected_index == 5:
-                    print("cast spell not built")
+                    current_screen = "spell"
                 elif selected_index == 6:
-                    print("brew Potion not built")
+                    current_screen = "brew potion"
                 elif selected_index == 7:
-                    print("dungeon not built")
+                    current_screen = "enter dungeon"
             if event.key == pygame.K_ESCAPE:
                 current_screen = "main"
 
@@ -81,6 +81,15 @@ while running:
         screen.blit(line4, (20, 115))
         line5 = font.render(f"Mood: {my_pet.mood()}", True, (255, 255, 255))
         screen.blit(line5, (25,140))
+    elif current_screen == "spell":
+        text = font.render("cast spell - coming soon",True, (255, 255, 255))
+        screen.blit(text, (20, 100))
+    elif current_screen == "brew potion":
+        text = font.render("brew potion coming soon", True, (255, 255, 255))
+        screen.blit(text, (25,100))
+    elif current_screen == "enter dungeon":
+        text = font.render("dungeon coming soon", True, (255, 255, 255))
+        screen.blit(text, (25, 100))
 
 
     pygame.display.flip()
