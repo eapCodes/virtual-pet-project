@@ -20,6 +20,12 @@ class Pet:
         self.nature = 0
         self.birth_time = datetime.now()
 
+        birth_hour = self.birth_time.hour
+        if birth_hour <  6 or  birth_hour >= 20:
+            self.dark +=  6
+        else:
+            self.restoration += 5
+
     def tick(self):
         elapsed = datetime.now() - self.last_updated
         elapsed_hours = elapsed.total_seconds() / 3600
@@ -214,3 +220,4 @@ if __name__ == "__main__":
     print(loaded_pet.hunger, loaded_pet.energy, loaded_pet.happiness, loaded_pet.knowledge, loaded_pet.health)
     print(my_pet.restoration, my_pet.dark)
     print(my_pet.get_stage())
+    print(my_pet.restoration, my_pet.dark)
